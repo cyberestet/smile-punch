@@ -143,9 +143,9 @@ class Player extends BaseUnit {
       } else attackedUnit = enemy.skin;
     }
 
-    replaceMapAt(position, weapon);
+    updateMapUnitWith(position, weapon);
     setTimeout(() => {
-      updateMapUnitWith(weapon, attackedUnit);
+      updateMapUnitWith(position, attackedUnit);
     }, 100);
   }
 

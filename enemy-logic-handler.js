@@ -29,7 +29,6 @@ function killAllEnemies() {
 function setlastEnemySpawnTime(value) {
   lastEnemySpawnTime = value;
 }
-
 function selectEnemiesForSpawn() {
   if (
     (spawnedEnemies.length <= 5 &&
@@ -58,23 +57,23 @@ function updateEnemies() {
     let newPosition = null;
     if (Math.abs(gameTime - enemy.lastMoveTime) > enemy.moveInterval) {
       // we can move
-      const oldPosition = enemy.position;
-      if (oldPosition && oldPosition >= 0) {
+      const currentPosition = enemy.position;
+      if (currentPosition && currentPosition >= 0) {
         // enemy already on map so we need to move him to the player
-        if (Math.abs(playerPosition - oldPosition) > 2) {
+        if (Math.abs(playerPosition - currentPosition) > 2) {
           // move to player
-          if (playerPosition > oldPosition)
+          if (playerPosition > currentPosition)
             // player on the right side
-            newPosition = oldPosition + 2;
-          else if (playerPosition < oldPosition)
+            newPosition = currentPosition + 2;
+          else if (playerPosition < currentPosition)
             // player on the left side
-            newPosition = oldPosition - 2;
+            newPosition = currentPosition - 2;
           const enemyOnPosition = spawnedEnemies.find(
-            (e) => e.position == newPosition
+            (e) => e.position == newPosition && e.id !== enemy.id
           );
           if (!enemyOnPosition) {
             // TODO if player will be on the left side
-            replaceMapAt(oldPosition, GROUND);
+            replaceMapAt(currentPosition, GROUND);
           } else {
             newPosition = null;
             // attack

@@ -32,8 +32,7 @@ function updateMap(newMap) {
   window.history.pushState("", "", newMap);
   // window.location.hash = newMap
 }
-function updateMapUnitWith(target, replacement) {
-  const targetPosition = map.indexOf(target);
+function updateMapUnitWith(targetPosition, replacement) {
   const newMap = replaceMapAt(targetPosition, replacement);
   updateMap(newMap);
 }

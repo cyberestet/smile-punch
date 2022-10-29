@@ -25,7 +25,7 @@ class BaseUnit {
   }
 
   dead() {
-    updateMapUnitWith(this.skin, this.deadSkin);
+    updateMapUnitWith(this.position, this.deadSkin);
   }
 
   updateHealth(value, useDamageSkin = true) {
@@ -34,11 +34,11 @@ class BaseUnit {
       health += value;
       if (health > this.maxHealth) health = this.maxHealth;
       if (value < 0 && health > 0 && useDamageSkin) {
-        updateMapUnitWith(this.skin, this.damageSkin);
+        updateMapUnitWith(this.position, this.damageSkin);
         this.skin = this.damageSkin;
         setTimeout(() => {
           this.skin = this.defaultSkin;
-          updateMapUnitWith(this.damageSkin, this.skin);
+          updateMapUnitWith(this.position, this.skin);
         }, 100);
       }
       if (health <= 0) health = 0;

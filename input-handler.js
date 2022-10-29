@@ -46,7 +46,7 @@ const controlHandler = (key) => {
     }
     updateMap(map);
   } // on restart
-  else if(!isGamePause) start();
+  else if (!isGamePause) start();
 };
 const throttledMovement = throttle(controlHandler, 150);
 
@@ -57,16 +57,17 @@ function handleKeyDown(newKey) {
   if (newKey !== prevKey) throttledMovement(newKey);
   prevKey = newKey;
 }
+const onKeyUp = (key) => {
+  prevKey = null;
 
+  if (isShiftPressed) isShiftPressed = !(key === SHIFT_KEY);
+  if (isKPressed) isKPressed = !(key === KATSU_KEY);
+};
 function addListeners() {
   window.addEventListener("mouseup", () => (prevKey = null));
-  window.addEventListener("keyup", (event) => {
-    prevKey = null;
-    const key = event.key.toLowerCase();
 
-    if (isShiftPressed) isShiftPressed = !(key === SHIFT_KEY);
-    if (isKPressed) isKPressed = !(key === KATSU_KEY);
-  });
+  window.addEventListener("keyup", (event) => onKeyUp(event.key.toLowerCase()));
+
   window.addEventListener("keydown", (e) => handleKeyDown(e.key));
   window.addEventListener("unload", () => (window.location = "/"));
 
@@ -80,9 +81,24 @@ function addListeners() {
   document
     .getElementById("leftAttack")
     .addEventListener("click", () => handleKeyDown(LEFT_FIST_KEY));
+
   document
     .getElementById("rightAttack")
     .addEventListener("click", () => handleKeyDown(RIGHT_FIST_KEY));
+
+  document
+    .getElementById("fireJutsu")
+    .addEventListener("mousedown", () => handleKeyDown(KATSU_KEY));
+  document
+    .getElementById("fireJutsu")
+    .addEventListener("mouseup", () => onKeyUp(KATSU_KEY));
+
+  document
+    .getElementById("jump")
+    .addEventListener("mousedown", () => handleKeyDown(SHIFT_KEY));
+  document
+    .getElementById("jump")
+    .addEventListener("mouseup", () => onKeyUp(SHIFT_KEY));
 }
 
 export { addListeners };
